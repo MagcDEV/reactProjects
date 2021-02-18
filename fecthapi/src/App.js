@@ -12,6 +12,10 @@ const UseEffectFetchData = () => {
         setUsers(users)
     };
 
+    const removeItem = (id) => {
+        setUsers(users.filter((user) => user.id !== id))
+    }
+
     useEffect(() => {
         getUsers();
     }, []);
@@ -27,6 +31,7 @@ const UseEffectFetchData = () => {
                         <div>
                             <h4>{login}</h4>
                             <a href={html_url}>profile</a>
+                            <button className='btn' onClick={() => removeItem(id)}>Remove</button>
                         </div>
                     </li>
                 )
