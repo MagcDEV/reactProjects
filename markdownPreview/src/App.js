@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import ReactMarkdown from 'react-markdown'
+import breaks from 'remark-breaks'
 
 const App = () => {
   const text = '# Heading\n## H2 TAG\n[Link](http://a.com)\n\n`const x = 5` inline code with backticks\n\n'
@@ -28,7 +29,7 @@ print 'indent 4 spaces')
           onChange={(e) => setMarkdown(e.target.value)}>
         </textarea>
         <article id="preview" className="result">
-          <ReactMarkdown>{markdown}</ReactMarkdown>
+          <ReactMarkdown plugins={[breaks]} allowDangerousHtml>{markdown}</ReactMarkdown>
         </article>
       </section>
     </main>
