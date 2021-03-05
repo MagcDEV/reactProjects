@@ -1,32 +1,35 @@
 import React, { useState } from 'react';
 
 const Square = (props) => {
+  const [value, setValue] = useState('')
   return (
-    <button class="square">
-      {/* TODO */}
+    <button class="square" onClick={() => setValue('X')} >
+      {props.value}
     </button>
   )
 }
 
 const Board = () => {
+
+  const [vector, setVector] = useState(Array(9).fill(null))
   const status = 'Next player: X'
   return (
     <div>
       <div className="status">{status}</div>
       <div className="board-row">
-        <Square i={0}/>
-        <Square i={1}/>
-        <Square i={2}/>
+        <Square value={vector[0]} onClick={handleClick(0)}/>
+        <Square value={vector[1]}/>
+        <Square value={vector[2]}/>
       </div>
       <div className="board-row">
-        <Square i={3}/>
-        <Square i={4}/>
-        <Square i={5}/>
+        <Square value={vector[3]}/>
+        <Square value={vector[4]}/>
+        <Square value={vector[5]}/>
       </div>
       <div className="board-row">
-        <Square i={6}/>
-        <Square i={7}/>
-        <Square i={8}/>
+        <Square value={vector[6]}/>
+        <Square value={vector[7]}/>
+        <Square value={vector[8]}/>
       </div>
     </div>
   )
