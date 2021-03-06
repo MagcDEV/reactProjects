@@ -11,6 +11,7 @@ ol, ul {
   clear: both;
   content: "";
   display: table;
+
 }
 
 .status {
@@ -47,4 +48,9 @@ ol, ul {
 
 .game-info {
   margin-left: 20px;
+}
+
+.game-board {
+    width: 150px;
+    margin: auto;
 }

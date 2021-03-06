@@ -54,7 +54,7 @@ const Board = () => {
   
 
   return (
-    <div>
+    <div className="board">
       <div className="status">{status}</div>
       <div className="board-row">
         <Square value={state.squares[0]} id={0} handleClick={handleClick}/>
@@ -76,10 +76,14 @@ const Board = () => {
 }
 
 const App = () => {
+  const refreshPage = () => {
+      window.location.reload(false);
+  }
   return (
     <div className="game">
       <div className="game-board">
         <Board />
+        <button onClick={refreshPage}>Restart</button>
       </div>
       <div className="game-info">
         <div></div>
