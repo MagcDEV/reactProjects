@@ -1,35 +1,75 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; 
 
-const Square = (props) => {
-  const [value, setValue] = useState('')
-  return (
-    <button class="square" onClick={() => setValue('X')} >
-      {props.value}
+const calculateWinner = (squares) => {
+  const lines = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+  for (let i = 0; i < lines.length; i++) {
+    const [a, b, c] = lines[i];
+    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+      return squares[a];
+    }
+  }
+  return null;
+}
+
+const Square = ({value, id,  handleClick}) => { 
+    return (
+      <button className="square" onClick={() => handleClick(id)}>
+      {value}
     </button>
   )
 }
 
 const Board = () => {
+  const [state, setState] = useState({
+      squares: Array(9).fill(null),
+      xIsNext: true,
+  });
 
-  const [vector, setVector] = useState(Array(9).fill(null))
-  const status = 'Next player: X'
+  const winner = calculateWinner(state.squares); 
+  let status;
+  if(winner) {
+      status = 'Winner: ' + winner;
+  } else {
+      status = 'Next player: ' + (state.xIsNext ? 'X' : 'O');
+  }
+
+  const handleClick = (id) => {
+      const squares = state.squares.slice();
+      if (calculateWinner(squares) || squares[id]) {
+          return;
+      }
+      squares[id] = state.xIsNext ? 'X' : 'O';
+      setState({squares: squares, xIsNext: !state.xIsNext})
+  }
+
+  
+
   return (
     <div>
       <div className="status">{status}</div>
       <div className="board-row">
-        <Square value={vector[0]} onClick={handleClick(0)}/>
-        <Square value={vector[1]}/>
-        <Square value={vector[2]}/>
+        <Square value={state.squares[0]} id={0} handleClick={handleClick}/>
+        <Square value={state.squares[1]} id={1} handleClick={handleClick}/>
+        <Square value={state.squares[2]} id={2} handleClick={handleClick}/>
       </div>
       <div className="board-row">
-        <Square value={vector[3]}/>
-        <Square value={vector[4]}/>
-        <Square value={vector[5]}/>
+        <Square value={state.squares[3]} id={3} handleClick={handleClick}/>
+        <Square value={state.squares[4]} id={4} handleClick={handleClick}/>
+        <Square value={state.squares[5]} id={5} handleClick={handleClick}/>
       </div>
       <div className="board-row">
-        <Square value={vector[6]}/>
-        <Square value={vector[7]}/>
-        <Square value={vector[8]}/>
+        <Square value={state.squares[6]} id={6} handleClick={handleClick}/>
+        <Square value={state.squares[7]} id={7} handleClick={handleClick}/>
+        <Square value={state.squares[8]} id={8} handleClick={handleClick}/>
       </div>
     </div>
   )
