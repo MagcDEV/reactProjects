@@ -1,4 +1,4 @@
-import React, { useState } from 'react'; 
+import React, { useState, useEffect } from 'react'; 
 
 const calculateWinner = (squares) => {
   const lines = [
@@ -20,70 +20,133 @@ const calculateWinner = (squares) => {
   return null;
 }
 
-const Square = ({value, id,  handleClick}) => { 
+const Square = ({value, id,  handleClick, clase}) => { 
     return (
-      <button className="square" onClick={() => handleClick(id)}>
+      <td className={clase} onClick={() => handleClick(id)}>
       {value}
-    </button>
+    </td>
   )
 }
 
 const Board = () => {
   const [state, setState] = useState({
       squares: Array(9).fill(null),
-      xIsNext: true,
+      marked: [0,1,2,3,4,5,6,7,8],
+      xIsNext: true
   });
 
   const winner = calculateWinner(state.squares); 
   let status;
   if(winner) {
       status = 'Winner: ' + winner;
+  } else if (!winner && !state.squares.includes(null)) {
+    status = 'Draw'
   } else {
       status = 'Next player: ' + (state.xIsNext ? 'X' : 'O');
   }
 
   const handleClick = (id) => {
       const squares = state.squares.slice();
+      const marked = state.marked.slice();
       if (calculateWinner(squares) || squares[id]) {
           return;
       }
       squares[id] = state.xIsNext ? 'X' : 'O';
-      setState({squares: squares, xIsNext: !state.xIsNext})
+      marked[id] = 'M'
+      setState({squares: squares, marked: marked, xIsNext: !state.xIsNext})
+  /*  if (state.xIsNext) {
+      const squares = state.squares.slice();
+      const marked = state.marked.slice();
+      if (calculateWinner(squares) || squares[id]) {
+          return;
+      }
+      squares[id] = state.xIsNext ? 'X' : 'O';
+      marked[id] = 'M'
+      setState({squares: squares, marked: marked, xIsNext: !state.xIsNext})
+    } else {
+      const squares = state.squares.slice();
+      const marked = state.marked.slice();
+      let newSpot = bestSpot()
+      if (calculateWinner(squares) || squares[newSpot]) {
+          return;
+      }
+      squares[newSpot] = state.xIsNext ? 'X' : 'O';
+      marked[newSpot] = 'M'
+      setState({squares: squares, marked: marked, xIsNext: !state.xIsNext})
+    } */
+  }
+  useEffect(() => {
+    if (!state.xIsNext) {
+      const squares = state.squares.slice();
+      const marked = state.marked.slice();
+      let newSpot = bestSpot()
+      if (calculateWinner(squares) || squares[newSpot]) {
+          return;
+      }
+      squares[newSpot] = state.xIsNext ? 'X' : 'O';
+      marked[newSpot] = 'M'
+      setState({squares: squares, marked: marked, xIsNext: !state.xIsNext})
+    }
+  }, [state])
+
+  const refreshPage = () => {
+    setState({
+      squares: Array(9).fill(null),
+      marked: [0,1,2,3,4,5,6,7,8],
+      xIsNext: true
+    })
   }
 
-  
+  const empySquares = () => {
+    return state.marked.filter(s => typeof s == 'number');
+  }
+
+  const bestSpot = () => {
+    return empySquares()[randomNumber(empySquares().length)]
+    /*if (empySquares().includes(randomNumber())) {
+      return randomNumber()
+    } else {
+      return empySquares()[0]
+    } */
+  }
+
+  const randomNumber = (i) => {
+    return Math.floor(Math.random() * i)
+  }
 
   return (
-    <div className="board">
-      <div className="status">{status}</div>
-      <div className="board-row">
+    <>
+      <h1>TIC TAC TOE</h1>
+      <h2 className="status">{status}</h2>
+        <table>
+          <tbody>
+          <tr>
         <Square value={state.squares[0]} id={0} handleClick={handleClick}/>
-        <Square value={state.squares[1]} id={1} handleClick={handleClick}/>
+        <Square value={state.squares[1]} id={1} handleClick={handleClick} clase={'vert'}/>
         <Square value={state.squares[2]} id={2} handleClick={handleClick}/>
-      </div>
-      <div className="board-row">
-        <Square value={state.squares[3]} id={3} handleClick={handleClick}/>
-        <Square value={state.squares[4]} id={4} handleClick={handleClick}/>
-        <Square value={state.squares[5]} id={5} handleClick={handleClick}/>
-      </div>
-      <div className="board-row">
+          </tr>
+          <tr>
+        <Square value={state.squares[3]} id={3} handleClick={handleClick} clase={'hori'}/>
+        <Square value={state.squares[4]} id={4} handleClick={handleClick} clase={'vert hori'}/>
+        <Square value={state.squares[5]} id={5} handleClick={handleClick} clase={'hori'}/>
+          </tr>
+          <tr>
         <Square value={state.squares[6]} id={6} handleClick={handleClick}/>
-        <Square value={state.squares[7]} id={7} handleClick={handleClick}/>
+        <Square value={state.squares[7]} id={7} handleClick={handleClick} clase={'vert'}/>
         <Square value={state.squares[8]} id={8} handleClick={handleClick}/>
-      </div>
-    </div>
+          </tr>
+          </tbody>
+        </table>
+        <button onClick={refreshPage}>Replay</button>
+    </>
   )
 }
 
 const App = () => {
-  const refreshPage = () => {
-      window.location.reload(false);
-  }
   return (
     <div className="game">
       <div className="game-board">
         <Board />
-        <button onClick={refreshPage}>Restart</button>
       </div>
       <div className="game-info">
         <div></div>
