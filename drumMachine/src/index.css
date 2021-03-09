@@ -1,0 +1,57 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+      0deg,
+      rgba(53, 50, 52, 0.3),
+      rgba(31, 28, 30, 0.3)
+    ),
+    url(drumkit.jpg) bottom center;
+  background-size: cover;
+  color: #fff;
+}
+
+body {
+  height: 80%;
+  width: 80%;
+  margin: 50px auto;
+}
+
+.display {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  min-height: 100vh;
+  width: 80%;
+  margin: auto;
+}
+
+.drum-pad {
+  border: solid 2px #fff;
+  text-align: center;
+  width: 80px;
+  margin: 8px;
+  background: rgba(0, 0, 0, 0.5);
+  transition: all 0.07s ease;
+}
+
+kbd {
+  display: block;
+  font-size: 4rem;
+}
+
+.sound {
+  color: rgb(197, 197, 38);
+}
+
+.playing {
+  transform: scale(1.1);
+  border-color: #ffc600;
+  box-shadow: 0 0 1rem #ffc600;
+}
