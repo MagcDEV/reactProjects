@@ -54,27 +54,8 @@ const Board = () => {
       squares[id] = state.xIsNext ? 'X' : 'O';
       marked[id] = 'M'
       setState({squares: squares, marked: marked, xIsNext: !state.xIsNext})
-  /*  if (state.xIsNext) {
-      const squares = state.squares.slice();
-      const marked = state.marked.slice();
-      if (calculateWinner(squares) || squares[id]) {
-          return;
-      }
-      squares[id] = state.xIsNext ? 'X' : 'O';
-      marked[id] = 'M'
-      setState({squares: squares, marked: marked, xIsNext: !state.xIsNext})
-    } else {
-      const squares = state.squares.slice();
-      const marked = state.marked.slice();
-      let newSpot = bestSpot()
-      if (calculateWinner(squares) || squares[newSpot]) {
-          return;
-      }
-      squares[newSpot] = state.xIsNext ? 'X' : 'O';
-      marked[newSpot] = 'M'
-      setState({squares: squares, marked: marked, xIsNext: !state.xIsNext})
-    } */
   }
+
   useEffect(() => {
     if (!state.xIsNext) {
       const squares = state.squares.slice();
@@ -103,16 +84,15 @@ const Board = () => {
 
   const bestSpot = () => {
     return empySquares()[randomNumber(empySquares().length)]
-    /*if (empySquares().includes(randomNumber())) {
-      return randomNumber()
-    } else {
-      return empySquares()[0]
-    } */
   }
 
   const randomNumber = (i) => {
     return Math.floor(Math.random() * i)
   }
+
+/*  const minMax = () => {
+    return 1
+  } */
 
   return (
     <>
