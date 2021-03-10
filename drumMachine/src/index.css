@@ -22,7 +22,7 @@ body {
   margin: 50px auto;
 }
 
-.display {
+#drum-machine {
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -33,6 +33,7 @@ body {
 }
 
 .drum-pad {
+  font-size: 4rem;
   border: solid 2px #fff;
   text-align: center;
   width: 80px;
